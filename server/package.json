@@ -18,7 +18,6 @@
     "url": "https://github.com/sanketvarpe/pc_cms/issues"
   },
   "homepage": "https://github.com/sanketvarpe/pc_cms#readme",
-
   "dependencies": {
     "bcrypt": "^5.0.1",
     "connect-mongo": "^4.2.2",
