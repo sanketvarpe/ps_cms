@@ -15,6 +15,8 @@ const sequelize = require('sequelize');
 const passport = require('passport');
 // const makeDbConnection = require('./dbHelpers/makeConnection');
 const authRoutes = require('./routes/auth/auth');
+var cors = require("cors");
+
 /**
  * @description:Connect to mysql database and set global dbObject
  */
@@ -41,20 +43,21 @@ const app = express();
 */
 
 app.use(logger('dev'));
+app.use(cors({credentials:true}));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(session({
-    resave: true,
-    saveUninitialized: true,
-    secret: process.env.SESSION_SECRET,
-    cookie: { maxAge: 1209600000 }, // two weeks in milliseconds
-    // store: MongoStore.create({
-    //   mongoUrl: process.env.MONGODB_URI,
-    // //   autoReconnect: true,
-    // })
-}));
+// app.use(session({
+//     resave: true,
+//     saveUninitialized: true,
+//     secret: process.env.SESSION_SECRET,
+//     cookie: { maxAge: 1209600000 }, // two weeks in milliseconds
+//     // store: MongoStore.create({
+//     //   mongoUrl: process.env.MONGODB_URI,
+//     // //   autoReconnect: true,
+//     // })
+// }));
 app.use(passport.initialize());
-app.use(passport.session());
+// app.use(passport.session());
 
 
 app.use((req, res, next) => {
@@ -92,3 +95,4 @@ if (process.env.NODE_ENV === 'development') {
  * @description:auth routes
 */
 app.use('/auth',authRoutes);
+module.exports = app;
