@@ -14,7 +14,7 @@ const Login = () => {
 		e.preventDefault();
 		console.log(data);
 		const response = await axios.post("/auth/login", data );
-		console.loh(response);
+		console.log(response.data);
 		// history.push("/custs/me");
 	};
 
