@@ -6,24 +6,39 @@ const session = require('express-session');
 const bodyParser = require('body-parser');
 const logger = require('morgan');
 const errorHandler = require('errorhandler');
-const MongoStore = require('connect-mongo').default;
+const MongoStore = require('connect-mongo');
 const dotenv = require('dotenv');
-// const flash = require('express-flash');
+const cors = require('cors');
 const path = require('path');
 const mysql = require('mysql');
 const sequelize = require('sequelize');
 const passport = require('passport');
-// const makeDbConnection = require('./dbHelpers/makeConnection');
+const mongoose = require('mongoose');
+const makeDbConnection = require('./dbHelpers/makeConnection');
+dotenv.config({path:'.env'});
+
+const MONGODB_URI = require('./configs/keys');
 const authRoutes = require('./routes/auth/auth');
+// console.log(process.env);
+
 /**
  * @description:Connect to mysql database and set global dbObject
  */
-// global.dbObject = makeDbConnection();
-// console.log(global.dbObject);
-global.serverBaseDirPath = "D:/ps_cms";
+// global.sqlObject = makeDbConnection();
+// console.log("sqlObject==>>",global.sqlObject);
+global.serverBaseDirPath = "D:/ps_cms/server";
 
-const userControllers = require('./controllers/controller/user');
-dotenv.config({path:'../env'});
+/**
+ * @description:Connect to mongodb database
+*/
+
+console.log("mongo_uri",MONGODB_URI);
+mongoose.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true }).then(() => {
+		console.log("connected to mongodb");
+		app.listen(3001);
+}).catch((err) => {
+		console.log(err);
+});
 
 /**
  * @description:Create express app object
@@ -48,14 +63,14 @@ app.use(session({
     saveUninitialized: true,
     secret: process.env.SESSION_SECRET,
     cookie: { maxAge: 1209600000 }, // two weeks in milliseconds
-    // store: MongoStore.create({
-    //   mongoUrl: process.env.MONGODB_URI,
-    // //   autoReconnect: true,
-    // })
+    store: MongoStore.create({
+      mongoUrl: MONGODB_URI
+    //   autoReconnect: true,
+    })
 }));
-app.use(passport.initialize());
-app.use(passport.session());
-
+// app.use(passport.initialize());
+// app.use(passport.session());
+app.use(cors());
 
 app.use((req, res, next) => {
     // After successful login, redirect back to the intended page
@@ -92,3 +107,5 @@ if (process.env.NODE_ENV === 'development') {
  * @description:auth routes
 */
 app.use('/auth',authRoutes);
+
+module.exports = app;
