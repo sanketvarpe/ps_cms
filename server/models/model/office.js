@@ -1,17 +1,17 @@
 const sequelize = require('sequelize');
-const officeModel = global.dbObject.define('user',{
+const officeModel = global.dbObject.define('office',{
     name:{
-        type:sequelize.String,
+        type:sequelize.STRING,
         field:'name',
         allowNull:false,
     },
     taluka:{
-        type:sequelize.String,
+        type:sequelize.STRING,
         field:'taluka',
         allowNull:false
     },
     pin:{
-        type:sequelize.String,
+        type:sequelize.STRING,
         field:'pin',
         allowNull:false
     }

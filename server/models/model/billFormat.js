@@ -1,5 +1,5 @@
 const sequelize = require('sequelize');
-const billFormatModel = global.dbObject.define('user',{
+const billFormatModel = global.dbObject.define('billformat',{
     pay:{
         type:sequelize.INTEGER,
         field:'deptid',

@@ -8,11 +8,13 @@ function makeMigration() {
         console.log("file===>>",file);
         const curModel = require(`../models/model/${file}`);
         // console.log("curmodel");
-        await curModel.sync({alter:true}).catch(err => {
-            if(err){
-                throw err;
-            }
-        });
+        if(file!="error.js") {
+            await curModel.sync({alter:true}).catch(err => {
+                if(err){
+                    throw err;
+                }
+            });
+        }
     });
 }
 

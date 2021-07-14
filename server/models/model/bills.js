@@ -1,5 +1,5 @@
 const sequelize = require('sequelize');
-const departmentModel = global.dbObject.define('user',{
+const departmentModel = global.dbObject.define('bills',{
     zp_code:{
         type:sequelize.STRING,
         field:'zp_code',
