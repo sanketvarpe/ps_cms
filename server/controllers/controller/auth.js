@@ -1,5 +1,9 @@
+const loginService = require('./../service/auth');
+
 exports.loginController = (req,res) => {
-    var body = req.body;
-    console.log("we got the req ===>>",body);
-    res.json({'msg':'we got u'});
-}
+    const response = loginService(req.body);
+    if(response.error){
+        res.status(401).send(response);
+    }
+    res.status(200).send(response);
+}   
