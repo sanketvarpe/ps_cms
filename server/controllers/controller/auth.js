@@ -1,9 +1,9 @@
 const loginService = require('./../service/auth');
 
 exports.loginController = async (req,res) => {
-    const response = loginService(req.body);
-    if(response.error){
-        res.status(401).send(response);
+    const response = await loginService.loginService(req,res,Option = {});
+    if(response.err){
+        res.status(401).json(response);
     }
-    res.status(200).send(response);
+    res.status(200).json(response);
 }   
