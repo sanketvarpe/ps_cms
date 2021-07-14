@@ -1,6 +1,6 @@
 const loginService = require('./../service/auth');
 
-exports.loginController = (req,res) => {
+exports.loginController = async (req,res) => {
     const response = loginService(req.body);
     if(response.error){
         res.status(401).send(response);
