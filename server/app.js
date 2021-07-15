@@ -17,15 +17,18 @@ const mongoose = require('mongoose');
 const makeDbConnection = require('./dbHelpers/makeConnection');
 dotenv.config({path:'.env'});
 
-const MONGODB_URI = require('./configs/keys');
-const authRoutes = require('./routes/auth/auth');
-// console.log(process.env);
-
 /**
  * @description:Connect to mysql database and set global dbObject
  */
-// global.dbObject = makeDbConnection();
-// console.log("sqlObject==>>",global.sqlObject);
+global.dbObject = makeDbConnection();
+// console.log("sqlObject==>>",global.dbObject);
+
+const MONGODB_URI = require('./configs/keys');
+const authRoutes = require('./routes/auth/auth');
+const homeRoutes = require('./routes/home/home');
+// console.log(process.env);
+
+
 global.serverBaseDirPath = "D:/ps_cms/server";
 
 /**
@@ -49,7 +52,7 @@ const app = express();
 /**
  * @description:require passport configs
 */
-// const passportConfigs = require('./configs/passport');
+const passportConfigs = require('./configs/passport');
 
 /**
  * @description:express configs
@@ -62,15 +65,15 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(session({
     resave: true,
     saveUninitialized: true,
-    secret: process.env.SESSION_SECRET,
+    secret: '4dqoDpdnp@1u30938wufwe@1488',
     cookie: { maxAge: 1209600000 }, // two weeks in milliseconds
     store: MongoStore.create({
       mongoUrl: MONGODB_URI
     //   autoReconnect: true,
     })
 }));
-// app.use(passport.initialize());
-// app.use(passport.session());
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.use((req, res, next) => {
     // After successful login, redirect back to the intended page
@@ -107,5 +110,5 @@ if (process.env.NODE_ENV === 'development') {
  * @description:auth routes
 */
 app.use('/auth',authRoutes);
-
+app.use('/',homeRoutes);
 module.exports = app;

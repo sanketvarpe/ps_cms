@@ -11,6 +11,7 @@ exports.getDeptData = async (req,res,options = {}) => {
         resObj.data = await deptModel.findAll({
             attributes : ['id','name']
         });
+        resObj.msg = "department fetched succesfully";
     } catch (error) {
         console.log("error===>>",error);
         resObj.err = true;

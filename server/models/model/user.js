@@ -1,4 +1,5 @@
 const sequelize = require('sequelize');
+const bcrypt = require('bcrypt');
 const userModel = global.dbObject.define('user',{
     deptid:{
         type:sequelize.INTEGER,
@@ -28,18 +29,45 @@ const userModel = global.dbObject.define('user',{
     isverified:{
         type:sequelize.BOOLEAN,
         field:'isverified',
-        allowNull:false
+        default:false
+        // allowNull:false,
     },
     isadmin:{
         type:sequelize.BOOLEAN,
-        field:'officeid',
+        field:'isadmin',
         allowNull:false
     },
     level:{
         type:sequelize.INTEGER,
-        field:'officeid',
+        field:'level',
         allowNull:false
     }
 });
 
+/**
+ *@description:before save hook to encrypt password
+*/
+userModel.beforeSave(async (user,options = {}) => {
+
+    return new Promise((res,rej) => {
+        bcrypt.genSalt(10, (err,salt) => {
+        if(err) {rej(err);}
+        bcrypt.hash(user.password,salt,(err,hash) => {
+            if(err) {rej(err);}
+            user.password = hash;
+            res(user);
+        });
+    });})
+
+});
+
+/**
+ * @description:method to compare password
+*/
+userModel.prototype.comparePassword = (password,hash,cb) => {
+    const user = this;
+    bcrypt.compare(password,hash,(err,isMatch) => {
+        cb(err,isMatch);
+    });
+};
 module.exports = userModel;
