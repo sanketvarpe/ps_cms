@@ -26,6 +26,7 @@ global.dbObject = makeDbConnection();
 const MONGODB_URI = require('./configs/keys');
 const authRoutes = require('./routes/auth/auth');
 const homeRoutes = require('./routes/home/home');
+const deptRoutes = require('./routes/department/department');
 // console.log(process.env);
 
 
@@ -109,5 +110,6 @@ if (process.env.NODE_ENV === 'development') {
  * @description:auth routes
 */
 app.use('/auth',authRoutes);
+app.use('/dept',deptRoutes);
 app.use('/',homeRoutes);
 module.exports = app;

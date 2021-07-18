@@ -1,5 +1,5 @@
 const sequelize = require('sequelize');
-const departmentModel = global.dbObject.define('bills',{
+const billModel = global.dbObject.define('bills',{
     zp_code:{
         type:sequelize.STRING,
         field:'zp_code',
@@ -78,7 +78,6 @@ const departmentModel = global.dbObject.define('bills',{
     approved_at:{
         type:sequelize.DATE,
         field:'approved_at',
-        allowNull:false,
     },
     created_by:{
         type:sequelize.STRING,
@@ -93,4 +92,4 @@ const departmentModel = global.dbObject.define('bills',{
     
 });
 
-module.exports = departmentModel;
+module.exports = billModel;
